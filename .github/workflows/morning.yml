@@ -1,0 +1,34 @@
+# Génère la morning note chaque jour ouvré avant l'ouverture et l'envoie par e-mail si les secrets SMTP sont définis
+# (Settings → Secrets and variables → Actions : SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, MAIL_TO).
+# GitHub Actions utilise l'heure UTC : 6h15 UTC = 7h15 à Paris en hiver (8h15 en été).
+name: Morning note
+
+on:
+  schedule:
+    - cron: "15 6 * * 1-5"
+  workflow_dispatch: {}   # bouton « Run workflow » pour un lancement manuel
+
+jobs:
+  morning:
+    runs-on: ubuntu-latest
+    env:
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      MAIL_TO: ${{ secrets.MAIL_TO }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Générer (et envoyer) la note
+        run: |
+          if [ -n "$SMTP_HOST" ]; then SEND="--send"; else SEND=""; fi
+          python -m morning_note --out output $SEND
+      - uses: actions/upload-artifact@v4
+        with:
+          name: morning-note
+          path: output/
+          retention-days: 30

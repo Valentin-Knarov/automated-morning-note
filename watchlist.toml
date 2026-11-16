@@ -1,0 +1,112 @@
+# Configuration de la morning note : modifier librement les listes ci-dessous.
+# symbol = ticker Yahoo Finance · name = libellé affiché · category = section de la note
+
+[note]
+title = "Morning note — Actions françaises"
+author = "Valentin Knarov"
+max_news_per_stock = 2
+volume_alert = 2.0       # alerte si le volume du jour dépasse 2 fois la moyenne des 20 séances précédentes
+move_alert_sigma = 2.0   # alerte si le mouvement dépasse 2 écarts-types journaliers
+
+[[markets]]
+symbol = "^FCHI"
+name = "CAC 40"
+category = "Indices"
+
+[[markets]]
+symbol = "^STOXX50E"
+name = "Euro Stoxx 50"
+category = "Indices"
+
+[[markets]]
+symbol = "^GDAXI"
+name = "DAX"
+category = "Indices"
+
+[[markets]]
+symbol = "^GSPC"
+name = "S&P 500"
+category = "Indices"
+
+[[markets]]
+symbol = "^IXIC"
+name = "Nasdaq Composite"
+category = "Indices"
+
+[[markets]]
+symbol = "^N225"
+name = "Nikkei 225"
+category = "Indices"
+
+[[markets]]
+symbol = "^VIX"
+name = "VIX"
+category = "Volatilité"
+
+[[markets]]
+symbol = "EURUSD=X"
+name = "EUR/USD"
+category = "Change"
+
+[[markets]]
+symbol = "BZ=F"
+name = "Brent"
+category = "Matières premières"
+
+[[markets]]
+symbol = "GC=F"
+name = "Or"
+category = "Matières premières"
+
+[[markets]]
+symbol = "^TNX"
+name = "Taux US 10 ans"
+category = "Taux"
+
+[[watchlist]]
+symbol = "MC.PA"
+name = "LVMH"
+
+[[watchlist]]
+symbol = "TTE.PA"
+name = "TotalEnergies"
+
+[[watchlist]]
+symbol = "SAN.PA"
+name = "Sanofi"
+
+[[watchlist]]
+symbol = "AIR.PA"
+name = "Airbus"
+
+[[watchlist]]
+symbol = "BNP.PA"
+name = "BNP Paribas"
+
+[[watchlist]]
+symbol = "GLE.PA"
+name = "Société Générale"
+
+[[watchlist]]
+symbol = "SU.PA"
+name = "Schneider Electric"
+
+[[watchlist]]
+symbol = "CAP.PA"
+name = "Capgemini"
+
+[[watchlist]]
+symbol = "KER.PA"
+name = "Kering"
+
+[[watchlist]]
+symbol = "STLAP.PA"
+name = "Stellantis"
+
+[[watchlist]]
+symbol = "SOI.PA"
+name = "Soitec"
+
+[[watchlist]]
+symbol = "NEX.PA"
+name = "Nexans"
