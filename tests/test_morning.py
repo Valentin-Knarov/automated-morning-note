@@ -87,3 +87,18 @@ def test_news_parsing_both_formats():
 def test_cli_demo(tmp_path, capsys):
     main(["--demo", "--out", str(tmp_path)])
     assert list(tmp_path.glob("morning_*.html")) and list(tmp_path.glob("morning_*.md"))
+
+
+def test_unfinished_session_dropped():
+    from datetime import datetime
+
+    from morning_note.data import PARIS, drop_unfinished_session, session_close
+
+    df = _series(np.linspace(100, 101, 5))  # dernière barre : vendredi 13/11/2026
+    friday_2pm = datetime(2026, 11, 13, 14, 0, tzinfo=PARIS)
+    friday_8pm = datetime(2026, 11, 13, 20, 0, tzinfo=PARIS)
+    assert len(drop_unfinished_session(df, "CAP.PA", friday_2pm)) == 4  # séance parisienne en cours
+    assert len(drop_unfinished_session(df, "CAP.PA", friday_8pm)) == 5  # séance close
+    assert len(drop_unfinished_session(df, "^GSPC", friday_8pm)) == 4  # Wall Street encore ouverte
+    assert len(drop_unfinished_session(df, "EURUSD=X", friday_2pm)) == 5  # change : dernier prix gardé
+    assert session_close("^N225").hour == 8

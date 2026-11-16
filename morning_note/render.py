@@ -31,6 +31,7 @@ class NoteContent:
     alerts: list[dict]
     news: dict
     commentary: str = ""
+    intraday: bool = False
 
 
 def date_fr(d: pd.Timestamp) -> str:
@@ -59,7 +60,7 @@ _HTML = _env.from_string("""<!DOCTYPE html><html lang="fr"><head><meta charset="
 <div style="max-width:760px;margin:0 auto;background:#fff;padding:28px 32px">
 <div style="border-bottom:3px solid {{ NAVY }};padding-bottom:10px">
 <div style="font-size:22px;font-weight:bold;color:{{ NAVY }}">{{ c.title }}</div>
-<div style="font-size:13px;color:{{ GREY }}">{{ date }} · données à la clôture du {{ close_date }}{% if c.author %} · {{ c.author }}{% endif %}</div>
+<div style="font-size:13px;color:{{ GREY }}">{{ date }} · {% if c.intraday %}cours en séance du {{ close_date }}{% else %}données à la clôture du {{ close_date }}{% endif %}{% if c.author %} · {{ c.author }}{% endif %}</div>
 </div>
 {% if c.demo %}<p style="background:#fff8e6;border-left:4px solid #f0a202;padding:8px 12px;font-size:13px">Démonstration : instruments fictifs et données simulées.</p>{% endif %}
 
@@ -119,7 +120,8 @@ def to_html(c: NoteContent) -> str:
 
 def to_markdown(c: NoteContent) -> str:
     """Version texte, pratique pour un chat ou un message court."""
-    lines = [f"# {c.title}", f"_Données à la clôture du {c.as_of.strftime('%d/%m/%Y')}_", ""]
+    when = "Cours en séance du" if c.intraday else "Données à la clôture du"
+    lines = [f"# {c.title}", f"_{when} {c.as_of.strftime('%d/%m/%Y')}_", ""]
     if c.demo:
         lines += ["> Démonstration : instruments fictifs et données simulées.", ""]
     lines += ["## En bref"] + [f"- {l}" for l in c.headline] + [""]

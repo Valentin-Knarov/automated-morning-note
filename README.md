@@ -29,7 +29,11 @@ python -m morning_note                     # données réelles Yahoo Finance
 python -m morning_note --demo              # instruments fictifs, sans connexion
 python -m morning_note --commentary "Ouverture attendue en baisse après…"
 python -m morning_note --send              # envoi par e-mail (voir plus bas)
+python -m morning_note --intraday          # point de marché en journée, avec les cours de la séance en cours
 ```
+
+Par défaut, la note n'utilise que des **séances closes**. Lancée en journée, elle écarte la séance en cours : 17h45 pour Paris et l'Europe, 22h15 pour les États-Unis (heure de Paris). Les cours du moment ne sont ainsi jamais présentés comme des clôtures.
+Le change et les matières premières cotent presque en continu : leur dernier prix est conservé.
 
 La note est écrite dans `output/morning_AAAA-MM-JJ.html` et `.md`.
 
